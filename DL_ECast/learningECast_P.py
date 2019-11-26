@@ -9,7 +9,7 @@ from keras.optimizers import RMSprop, Adam
 from sklearn import preprocessing, linear_model
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv('191113_dataset.csv',sep=',')
+df = pd.read_csv('Data/191113_dataset.csv',sep=',')
 x = df.iloc[:, 1:42]
 y = df.iloc[:, 44]
 
@@ -67,14 +67,9 @@ score = model.evaluate(x_test, t_test, verbose=0)
 y_pred = model.predict(x_test)
 print('test loss:', score[0])
 print('test Accuracy:', score[1])
-y_pred = pd.DataFrame(y_pred)
-y_pred.to_csv('result.csv', index=False)
+#y_pred = pd.DataFrame(y_pred)
+#y_pred.to_csv('result.csv', index=False)
 model.save('modeldata.h5')
-
-############kunren-data###############
-y_pred = model.predict(x_train)
-y_pred = pd.DataFrame(y_pred)
-y_pred.to_csv('result_kunren.csv', index=False)
 
 ############show Figure###############
 import matplotlib.pyplot as plt
@@ -114,4 +109,13 @@ plt.ylim(250,450)
 plt.title('rin-noudo')
 plt.show()
 
+######outputFile######
+y_pred = pd.DataFrame(y_pred)
+y_pred.to_csv('predict_test.csv', index=False)
 
+x_pred = model.predict(x_train)
+x_pred = pd.DataFrame(x_pred)
+x_pred.to_csv('predict_train.csv', index=False)
+
+t_train.to_csv('label_train.csv', index=False)
+t_test.to_csv('label_test.csv', index=False)
