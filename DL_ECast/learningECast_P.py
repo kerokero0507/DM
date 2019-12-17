@@ -9,7 +9,7 @@ from keras.optimizers import RMSprop, Adam
 from sklearn import preprocessing, linear_model
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv('Data/191113_dataset.csv',sep=',')
+df = pd.read_csv('Data/191217_dataset.csv',sep=',')
 x = df.iloc[:, 1:42]
 y = df.iloc[:, 44]
 
@@ -18,6 +18,7 @@ y = df.iloc[:, 44]
 
 x_shifts = pd.get_dummies(x["item_1"], 4)
 x = x.drop("item_1", axis=1)
+x = x.drop("item_12", axis=1)
 
 #print(x)
 #print(x_shifts)
@@ -45,9 +46,9 @@ print(t_test)
 
 def reg_model():
 	reg = Sequential()
-	reg.add(Dense(100, input_dim=len(x_train.columns), activation='relu'))
+	reg.add(Dense(40, input_dim=len(x_train.columns), activation='relu', kernel_initializer='he_normal'))
 #	reg.add(Dropout(0.2))
-#	reg.add(Dense(50, activation='relu'))
+	reg.add(Dense(20, activation='relu', kernel_initializer='he_normal'))
 	reg.add(Dense(1))
 	
 	reg.compile(loss='mean_squared_error', optimizer=Adam(lr=1e-2), metrics=['accuracy'])
@@ -60,7 +61,7 @@ model = reg_model()
 
 #model.fit(x_train, t_train)
 
-epo = 500
+epo = 2000
 history = model.fit(x_train, t_train, batch_size=127, epochs=epo, verbose=1, validation_data=(x_test, t_test))
 #model.score(x_test, t_test)
 score = model.evaluate(x_test, t_test, verbose=0)
