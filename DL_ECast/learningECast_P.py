@@ -46,9 +46,9 @@ print(t_test)
 
 def reg_model():
 	reg = Sequential()
-	reg.add(Dense(40, input_dim=len(x_train.columns), activation='relu', kernel_initializer='he_normal'))
+	reg.add(Dense(40, input_dim=len(x_train.columns), activation='relu', kernel_initializer='he_normal', kernel_regularizer=keras.regularizers.l2(0.1)))
 #	reg.add(Dropout(0.2))
-	reg.add(Dense(20, activation='relu', kernel_initializer='he_normal'))
+	reg.add(Dense(20, activation='relu', kernel_initializer='he_normal', kernel_regularizer=keras.regularizers.l2(0.1)))
 	reg.add(Dense(1))
 	
 	reg.compile(loss='mean_squared_error', optimizer=Adam(lr=1e-2), metrics=['accuracy'])
