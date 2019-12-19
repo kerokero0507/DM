@@ -31,10 +31,24 @@ x_std = sc.transform(x)
 a = x_shifts.as_matrix()
 x_std = np.concatenate([x_std, a], 1)
 
+#Standarize -> PCA
 #print(x_std)
+from pca import PCAUnit
+mypca = PCAUnit.pcaExchange()
+x_pca = mypca.exchange(x_std)
 
+# print(x_pca.shape)
 
-x_tra, x_te, t_tra, t_te = train_test_split(x_std, y, test_size=0.2, random_state=0)
+# res = x_pca[:, 0:6]
+res = pd.DataFrame(x_pca)
+ress = res.iloc[:, 0:30]
+# print(ress.shape)
+# print(y.shape)
+
+# import sys
+# sys.exit()
+
+x_tra, x_te, t_tra, t_te = train_test_split(ress, y, test_size=0.2, random_state=0)
 x_train = pd.DataFrame(x_tra)
 x_test = pd.DataFrame(x_te)
 t_train = pd.DataFrame(t_tra)
